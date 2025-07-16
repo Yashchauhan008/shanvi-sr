@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 
-//get specific User
+//get specific ProductionHouse
 router.get('/:ProductionHouseId',async(req,res)=>{
   const productionHouse = await ProductionHouse.findById(req.params.ProductionHouseId)
 
@@ -19,15 +19,6 @@ router.get('/:ProductionHouseId',async(req,res)=>{
 
 })
 
-//get All student
-router.get('/getall',async(req,res)=>{
-    try {
-        const users = await User.find();
-        res.status(200).json(users); 
-      } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch users' }); 
-      }
-})
 
 // Register route
 router.post('/register', async (req, res) => {
@@ -60,31 +51,31 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Find user
-    const user = await ProductionHouse.findOne({ username });
-    if (!user) {
+    // Find production
+    const production = await ProductionHouse.findOne({ username });
+    if (!production) {
       return res.status(400).json({ message: 'Invalid credentials!' });
     }
 
     // Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, production.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials!' });
     }
 
     // Create JWT Token
     const token = jwt.sign(
-  { userId: user._id},  // <== `userId` here
-  process.env.JWT_SECRET,
-  { expiresIn: '2h' }
-);
+        { productionId: production._id},  // <== `userId` here
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
 
 
     res.status(200).json({
       token,
       ProductionHouse : {
-        id: user._id,
-        name: user.username,
+        id: production._id,
+        name: production.username,
       },
     });
   } catch (error) {
@@ -92,28 +83,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 });
-
-// router.put('/update-profile/:userId', async (req, res) => {
-//   const { userId } = req.params;
-//   const { name, email, password } = req.body;
-
-//   try {
-//     const updatedData = {};
-//     if (name) updatedData.name = name;
-//     if (email) updatedData.email = email;
-//     if (password) updatedData.password = password;
-
-//     const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
-    
-//     if (!updatedUser) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-
-//     res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Error updating profile' });
-//   }
-// });
 
 
 module.exports = router;
