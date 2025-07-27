@@ -1,6 +1,16 @@
 const mongoose = require('mongoose');
 
-const stockSchema = new mongoose.Schema({
+const ItemSchema = new mongoose.Schema({
+  paletSize: String,
+  quantity: Number,
+});
+
+const OrderSchema = new mongoose.Schema({
+  date: Date,
+  production_house_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ProductionHouse' },
+  factory_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Factory' },
+  party_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Party' },
+  items: [ItemSchema],
   film_white: { type: Number, required: true },
   film_blue: { type: Number, required: true },
   patti_role: { type: Number, required: true },
@@ -18,8 +28,6 @@ const stockSchema = new mongoose.Schema({
   packing_clip: { type: Number, required: true },
   patiya: { type: Number, required: true },
   plypatia: { type: Number, required: true },
-}, {
-  timestamps: true
 });
 
-module.exports = mongoose.models.Stock || mongoose.model('Stock', stockSchema);
+module.exports = mongoose.model('Order', OrderSchema);

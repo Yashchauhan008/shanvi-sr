@@ -1,0 +1,7 @@
+const mongoose = require('mongoose');
+
+const partySchema = new mongoose.Schema({
+  name: String,
+});
+
+module.exports = mongoose.model('Party', partySchema);

@@ -1,23 +1,22 @@
 const express = require('express')
 const mongoose = require('mongoose');
-const ProductionHouseRoute = require('./routes/ProductionHouseRoutes');
+const PartyRoute = require('./routes/partyRoutes');
+const FactoryRoute = require('./routes/factoryRoutes');
+const OrderRoute = require('./routes/orderRoutes');
+const ProductionHouseRoute = require('./routes/productionHouseRoutes');
+
 require('dotenv').config(); 
 const app = express();
 const cors = require('cors');
-
-
-
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 //configuration
-
 app.use(cors({
     origin: true,
     credentials: true
 }));
 app.use(express.json());
-
-const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI;
 
 
 
@@ -32,9 +31,17 @@ app.get('/', (req, res) => {
 });
 
 
+
+
 app.use('/api/productionHouse',ProductionHouseRoute)
+app.use('/api/party',PartyRoute)
+app.use('/api/factory',FactoryRoute)
+app.use('/api/order',OrderRoute)
 
 
+
+
+//Main Server 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
