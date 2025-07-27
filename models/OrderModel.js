@@ -11,6 +11,8 @@ const OrderSchema = new mongoose.Schema({
   factory_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Factory' },
   party_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Party' },
   items: [ItemSchema],
+  vehicle:String,
+  vehicle_number:Number,
   film_white: { type: Number, required: true },
   film_blue: { type: Number, required: true },
   patti_role: { type: Number, required: true },

@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 
+
+const ItemSchema = new mongoose.Schema({
+  used: { type: Number, default: 0 },
+  current :{ type: Number, default: 0 }
+});
+
 const PalateSchema = new mongoose.Schema({
-  paletSize: String,
-  quantity: { type: Number, default: 0 }
+  p200x200:{ type: Number, default: 0, },
+  p400x400:{ type: Number, default: 0 },
+  
 });
 
 const stockSchema = new mongoose.Schema({

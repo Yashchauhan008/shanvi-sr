@@ -1,34 +1,47 @@
 const bcrypt  = require('bcrypt');
 const ProductionHouse = require('../models/ProductionHouseModel');
 const jwt = require('jsonwebtoken');
+const Stock = require('../models/StockModel');
+
 
 
 
 
 exports.registerNewProductionHouse =  async (req, res) => {
-  const { productionHouseName, username, password ,email} = req.body;
+  const { productionHouseName, username, password, email } = req.body;
 
   try {
-    // Check for existing username
-    const existingProductionHouse = await ProductionHouse.findOne({ username });
-    
-    if (existingProductionHouse) {
-      return res.status(400).json({ message: 'ProductionHouse already exists!' });
+    // 1️⃣ Check for existing username
+    const existing = await ProductionHouse.findOne({ username });
+    if (existing) {
+      return res.status(400).json({ message: 'Username already taken' });
     }
 
-    // Hash the password
+    // 2️⃣ Create a new Stock (all fields default to 0)
+    const stock = new Stock({});
+    await stock.save();
+
+    // 3️⃣ Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Save new ProductionHouse
+    // 4️⃣ Create the ProductionHouse, linking to stock._id
     const productionHouse = new ProductionHouse({
       email,
-      productionHouseName, 
+      productionHouseName,
       username,
       password: hashedPassword,
+      stock_id: stock._id
     });
-
     await productionHouse.save();
-    res.status(201).json({ message: 'ProductionHouse registered successfully' });
+
+    // 5️⃣ Respond with the new IDs
+    res.status(201).json({
+      message: 'ProductionHouse registered successfully',
+      productionHouse: {
+        _id: productionHouse._id,
+        stock_id: stock._id,
+      }
+    });
 
   } catch (error) {
     console.error('Registration Error:', error);
@@ -66,6 +79,7 @@ exports.login = async (req, res) => {
       ProductionHouse : {
         id: production._id,
         name: production.username,
+        stock_id: production.stock_id,
       },
     });
   } catch (error) {
