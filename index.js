@@ -5,7 +5,7 @@ const FactoryRoute = require('./routes/factoryRoutes');
 const StockRoute = require('./routes/stockRoutes');
 
 const OrderRoute = require('./routes/orderRoutes');
-const ProductionHouseRoute = require('./routes/productionHouseRoutes');
+const ProductionHouseRoute = require('./routes/ProductionHouseRoutes');
 
 require('dotenv').config(); 
 const app = express();
