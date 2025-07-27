@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const PartyRoute = require('./routes/partyRoutes');
 const FactoryRoute = require('./routes/factoryRoutes');
 const OrderRoute = require('./routes/orderRoutes');
-const ProductionHouseRoute = require('./routes/productionHouseRoutes');
+const ProductionHouseRoute = require('./routes/ProductionHouseRoutes');
 
 require('dotenv').config(); 
 const app = express();
