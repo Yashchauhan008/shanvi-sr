@@ -11,6 +11,7 @@ exports.registerNewProductionHouse =  async (req, res) => {
   try {
     // Check for existing username
     const existingProductionHouse = await ProductionHouse.findOne({ username });
+    
     if (existingProductionHouse) {
       return res.status(400).json({ message: 'ProductionHouse already exists!' });
     }

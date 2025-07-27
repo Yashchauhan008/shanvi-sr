@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose');
 const PartyRoute = require('./routes/partyRoutes');
 const FactoryRoute = require('./routes/factoryRoutes');
+const StockRoute = require('./routes/stockRoutes');
+
 const OrderRoute = require('./routes/orderRoutes');
 const ProductionHouseRoute = require('./routes/productionHouseRoutes');
 
@@ -37,6 +39,7 @@ app.use('/api/productionHouse',ProductionHouseRoute)
 app.use('/api/party',PartyRoute)
 app.use('/api/factory',FactoryRoute)
 app.use('/api/order',OrderRoute)
+app.use('/api/stock',StockRoute)
 
 
 
